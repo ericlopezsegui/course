@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     char trashdir[] = "/.trash/";
 
     getcwd(current_dir, sizeof(current_dir));
-    strcat(userHome, trashdir)
+    strcat(userHome, trashdir); //l'error de compilació es el ; d'aquesta linia, que me'l vaig deixar alhora de copiar el codi.
     
     if (mkdir(userHome, 0777) == 0)
         printf("directori .trash creat.\n");
