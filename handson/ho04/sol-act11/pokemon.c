@@ -26,31 +26,30 @@ void init_pokedex(void){
 
   char *buf = malloc(POKEMONS);
   char *info;
-
+  
   while (fgets(buf, POKEMONS, f) != NULL) {
-    struct pokemon p;
-    info = strtok(buf, ",");
-    int c = 0; // index de la columna
+
+    struct pokemon p; 
+    int i = 0; // Represent the index of the columns
+    info = strtok(buf, ","); 
     while(info){
-      if (c==0) p.id=atoi(info);
-      if (c==1) strcpy(p.name, info);
-      if (c==2 || c==3)  strcpy(p.type[c-2], info);
-      if (c==4)  p.total = atoi(info);
-      if (c==5)  p.hp = atoi(info); 
-      if (c==6)  p.attack = atoi(info);
-      if (c==7) p.defense = atoi(info);
-      if (c==8)    p.spAttack = atoi(info);
-      if (c==9) p.spDefense = atoi(info);
-      if (c==10) p.speed = atoi(info);
-      if (c==11)  p.generation = atoi(info);
-      if (c==12) p.legendary = atoi(info);
-      c=c+1;
-      info = strtok(NULL, ",");
+        if (i==0)  p.id = atoi(info);
+        if (i==1)  strcpy(p.name, info);
+        if (i==2 || i==3)  strcpy(p.type[i-2], info);
+        if (i==3)  p.total = atoi(info);
+        if (i==4)   p.hp = atoi(info); 
+        if (i==5)  p.attack = atoi(info);
+        if (i==6)  p.defense = atoi(info);
+        if (i==7)  p.spAttack = atoi(info);
+        if (i==8)  p.spDefense = atoi(info);
+        if (i==9)  p.speed = atoi(info);
+        if (i==10)   p.generation = atoi(info);
+        if (i==11)   p.legendary = atoi(info);
+        i=i+1;
+        info = strtok(NULL, ",");
     }
-    pokedex[p.id-1]=p;
+    pokedex[p.id -1]=p;
   }
-
   fclose(f);
-  free(buf);
+  free(buf); 
 }
-
