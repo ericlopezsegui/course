@@ -5,3 +5,5 @@ handson/ho03/solucio/docker/.DS_Store
 handson/ho03/solucio/src/.DS_Store
 handson/ho03/solucio/src/HelloWorld/.DS_Store
 handson/ho05/ex1-sol.c
+exemples/vl03/grep.c
+exemples/vl03/lswc.c
