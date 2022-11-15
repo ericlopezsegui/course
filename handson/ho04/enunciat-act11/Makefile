@@ -15,7 +15,7 @@ $(POKEMON_EXECUTABLE): $(OBJECTS_POKEMON)
 $(RANDOM_EXECUTABLE): $(OBJECTS_RANDOM)
 	$(CC) $(OBJECTS_RANDOM) -o $@
 
-.c.o:
+.c.o:cd
 	$(CC) $(CFLAGS) $< -o $@
 
 execute: $(POKEMON_EXECUTABLE)
