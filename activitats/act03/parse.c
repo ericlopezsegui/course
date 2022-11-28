@@ -12,6 +12,8 @@ void parseLine(char *line){
     }
 }
 int parseCommand(char *command) {
+
+
     if (parseErrors(command) == 1) {
         return 0;
     }
@@ -24,49 +26,63 @@ int parseCommand(char *command) {
 
     char *token = strtok(command, delim);
 
+    // @Jordi: Compte! Esteu copiant adreçes!
     arguments[0] = token;
-    int argIndex = 1;
 
-    while(token != NULL) {
-        arguments[argIndex] = token;
-        token = strtok(NULL, delim);
-        argIndex++;
-    }
+    // @Jordi: Compte! Si introduim un comanda buida el programa petarà!
+    if ( token != NULL ){
+        char *path = malloc(strlen(token));
+        //strcpy(path, "/bin/");
+        strcpy(path, token);
 
-    arguments[argIndex] = NULL;
+        int argIndex = 0;
+        while(token != NULL) {
+            // arguments[argIndex] = token;
+            // Necessitem que s'assgni memoria a la pos argIndex
+            arguments[argIndex] = strdup(token);
+            token = strtok(NULL, delim);
+            argIndex++;
+        }
+        
+        // Not required
+        //arguments[argIndex] = NULL;
     
-    char *path = malloc(5+strlen(arguments[0]));
-    strcpy(path, "/bin/");
-    strcat(path, arguments[0]);
-    
-    pid_t pid = fork();
-    int status;
-    if (pid == 0){
-        execv(path, arguments);
-        exit(0);
-    } else {
-        waitpid(pid, &status, WUNTRACED | WCONTINUED);
-        return status;
+        // @Jordi: Aquest troç es pot definir en una funció
+        pid_t pid = fork();
+        int status;
+        if (pid == 0){
+            execvp(path, arguments);
+            exit(0);
+        } else {
+            waitpid(pid, &status, WUNTRACED | WCONTINUED);
+            return status;
+        }
     }
 }
 
 void ownCommands(char *cmd){
-    int i, switchOwnArg = 0;
-    char *listOwnCommands[3];
+    //int i, switchOwnArg = 0;
 
+    // @Jordi: Not used!!!!
+    /*char *listOwnCommands[3];
     listOwnCommands[0] = "exit";
     listOwnCommands[1] = "help";
-    listOwnCommands[2] = "cd";
+    listOwnCommands[2] = "cd";*/
+
+    // OMG: Podem evitar el switch no....
 
     if(strncmp(cmd, "cd", 2) == 0) {
-        switchOwnArg = 3;
+        //switchOwnArg = 3;
+        cdCommand(cmd); 
     } else if (strncmp(cmd, "help", 4) == 0) {
-        switchOwnArg = 2;
+        //switchOwnArg = 2;
+        openHelp();
     } else if(strncmp(cmd, "exit", 4) == 0) {
-        switchOwnArg = 1;
+        //switchOwnArg = 1;
+        exit(0);
     }
 
-    switch (switchOwnArg){
+   /* switch (switchOwnArg){
         case 1:
             exit(0);
         case 2:
@@ -77,9 +93,10 @@ void ownCommands(char *cmd){
             break;
         default:
             break;
-    }
+    }*/
 }
 
+// No demanada...
 void cdCommand(char *cmd){
     char *token = strtok(cmd, " ");
     token = strtok(NULL, " ");
